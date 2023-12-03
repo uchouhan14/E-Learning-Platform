@@ -1,0 +1,71 @@
+{% extends 'temp/snipest/base.html' %}
+{% load static %}
+{% load cart %}
+{% block contentbase %}
+<!-- Page Header Start -->
+<div class="page-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2>Class</h2>
+                    </div>
+                    <div class="col-12">
+                        <a href="">Home</a>
+                        <a href="">Class</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!-- Page Header End -->
+
+
+<!-- Class Start -->
+<div class="class">
+            <div class="container">
+                <div class="section-header text-center wow zoomIn" data-wow-delay="0.1s">
+                    <p>Our Classes</p>
+                    <h2>Online Class Shedule</h2>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <ul id="class-filter">
+                            <li data-filter="*" class="filter-active">All Classes</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row class-container">
+                    {% for cor in cour %}
+                    <div class="col-lg-4 col-md-6 col-sm-12 class-item  wow fadeInUp" data-wow-delay="0.3s">
+                        <div class="class-wrap">
+                            <div class="class-img">
+                                <a href="/courseview/{{ cor.id }}"><img src="{{cor.photo.url}}" alt="Image"></a>
+                            </div>
+                            <div class="class-text">
+                                <div class="class-teacher">
+                                    {% if cor|is_in_cart:request.session.cart %}
+                                        <h3 style="font-size: 12px">You Already Purchase This course</h3>
+                                    {% else %}
+                                        <h3>Enoll Now</h3>
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <input type="text" hidden name="paid" value="{{ cor.id }}" >
+                                        <input type="submit" style="border-radius: 30px; color: #0aa4f7;background-color: lightpink" value="+" >
+                                    </form>
+                                    {% endif %}
+                                </div>
+                                <h2>{{cor.course}}</h2>
+                                <div class="class-meta">
+                                    <h2>${{cor.price}}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+<!-- Class End -->
+
+{% endblock contentbase %}
+
+
